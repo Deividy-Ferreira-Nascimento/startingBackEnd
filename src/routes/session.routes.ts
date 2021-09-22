@@ -10,7 +10,7 @@ sessionsRouter.post ('/', async (req,res) => {
 
     const authenticateUser = new AuthenticateUserService();
 
-    const { user } = await authenticateUser.execute({
+    const { user, token } = await authenticateUser.execute({
       email,
       password
     })
@@ -22,7 +22,10 @@ sessionsRouter.post ('/', async (req,res) => {
       email: user.email,
       creted_at: user.created_at,
       updated_at: user.updated_at,
-      }
+
+      },
+      token:token
+
     }
 
     return res.json( view )
