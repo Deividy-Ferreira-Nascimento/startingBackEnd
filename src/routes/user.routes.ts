@@ -1,10 +1,17 @@
 import { Router } from "express";
 import CreateUserService from "../services/CreateUserService";
+import UpdateUserAvatarSevice from "../services/UpdateUserAvatarService";
+import ensureAuthenticated from "../middlewares/ensureAuthenticated";
+import multer from "multer";
+import uploadConfig from '../config/upload'
+import UpdateUserAvatarService from "../services/UpdateUserAvatarService";
 
-const appointmentsRouter = Router();
+const usersRouter = Router();
+const upload = multer(uploadConfig)
 
 
-appointmentsRouter.post ('/', async (req,res) => {
+
+usersRouter.post ('/', async (req,res) => {
 
   try {
     const { name, email ,password } = req.body
@@ -31,9 +38,23 @@ appointmentsRouter.post ('/', async (req,res) => {
   }
 
 
-})
+});
 
-export default appointmentsRouter
+usersRouter.patch('/avatar', ensureAuthenticated,upload.single('avatar'), async (req, res) => {
+  try {
+    const updateUserAvatar = new UpdateUserAvatarService
+
+    await updateUserAvatar.execute({
+      user_id: req.user.id,
+      avatarFilename: req.file?.filename,
+    })
+
+  } catch {
+    return res.status(400).json({error:'erro with img avatar'})
+  }
+} )
+
+export default usersRouter
 
 
 
