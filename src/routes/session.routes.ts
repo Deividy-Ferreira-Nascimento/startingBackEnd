@@ -5,7 +5,7 @@ const sessionsRouter = Router();
 
 sessionsRouter.post ('/', async (req,res) => {
 
-  try {
+
     const { email, password } =req.body
 
     const authenticateUser = new AuthenticateUserService();
@@ -29,9 +29,6 @@ sessionsRouter.post ('/', async (req,res) => {
     }
 
     return res.json( view )
-  } catch (error) {
-    return res.status(400).json({error:'incorrect email/password combination'})
-  }
 
 
 })

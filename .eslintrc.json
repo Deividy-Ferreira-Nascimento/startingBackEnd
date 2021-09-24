@@ -18,9 +18,12 @@
         "prettier"
     ],
     "rules": {
-      "no-use-before-define": "off",
-      "class-methods-use-this": "off" ,
-"@typescript-eslint/no-use-before-define": [
+    "no-use-before-define": "off",
+    "class-methods-use-this": "off" ,
+    "@typescript-eslint/no-unused-vars": ["error",{
+      "argsIgnorePattern": "_"
+    }],
+  "@typescript-eslint/no-use-before-define": [
 	"error"
 ],
 "import/extensions": [
