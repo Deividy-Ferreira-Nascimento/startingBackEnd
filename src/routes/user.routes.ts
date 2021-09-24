@@ -44,11 +44,19 @@ usersRouter.patch('/avatar', ensureAuthenticated,upload.single('avatar'), async 
   try {
     const updateUserAvatar = new UpdateUserAvatarService
 
-    await updateUserAvatar.execute({
+    const user = await updateUserAvatar.execute({
       user_id: req.user.id,
-      avatarFilename: req.file?.filename,
+      avatarFilename: req.file.filename,
     })
-
+    const views = {
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      avatar: user.avatar,
+      created_at: user.created_at,
+      updated_at: user.updated_at
+    }
+    return res.json(views)
   } catch {
     return res.status(400).json({error:'erro with img avatar'})
   }
