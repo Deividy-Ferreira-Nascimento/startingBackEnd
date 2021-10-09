@@ -1,5 +1,5 @@
 import { Router } from "express";
-import AuthenticateUserService from "../services/AuthenticateUserService";
+import AuthenticateUserService from "@modules/users/services/AuthenticateUserService";
 const sessionsRouter = Router();
 
 
@@ -20,7 +20,7 @@ sessionsRouter.post ('/', async (req,res) => {
       id: user.id,
       name: user.name,
       email: user.email,
-      creted_at: user.created_at,
+      created_at: user.created_at,
       updated_at: user.updated_at,
 
       },
