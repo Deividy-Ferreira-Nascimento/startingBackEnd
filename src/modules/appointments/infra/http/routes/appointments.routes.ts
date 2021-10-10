@@ -7,8 +7,10 @@ import ensureAuthenticated from "@modules/users/infra/http/middlewares/ensureAut
 
 
 const appointmentsRouter = Router();
-const appointmentsRepository = new AppointmentsRepository()
+
 appointmentsRouter.use(ensureAuthenticated)
+
+const appointmentsRepository = new AppointmentsRepository()
 
 
 
