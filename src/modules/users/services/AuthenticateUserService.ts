@@ -1,7 +1,7 @@
 
 import User from '../infra/typeorm/entities/User';
 import { injectable, inject } from 'tsyringe'
-import { compare } from 'bcryptjs'
+
 import { sign } from 'jsonwebtoken'
 import authConfig from '@config/auth'
 import AppError from '@shared/errors/AppError'
