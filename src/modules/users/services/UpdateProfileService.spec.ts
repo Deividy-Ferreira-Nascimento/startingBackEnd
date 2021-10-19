@@ -54,6 +54,17 @@ describe('UpdateUserAvatar', () => {
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
+
+  it('should not be able to update the profile from non-existing user', async () => {
+    await expect(
+      updateProfile.execute({
+        user_id: 'non-existing id',
+        name: 'John Doe',
+        email: 'joedoe@exemple.com'
+      }),
+    ).rejects.toBeInstanceOf(AppError);
+  });
+
   it('should be able to update the password', async () => {
     const user = await fakeUsersRepository.create({
       name: 'John Snow',

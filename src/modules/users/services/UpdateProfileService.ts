@@ -1,9 +1,10 @@
-import { inject, injectable } from 'tsyringe';
+import { injectable, inject } from 'tsyringe';
 
-import User from '@modules/users/infra/typeorm/entities/User';
 import AppError from '@shared/errors/AppError';
-import IHashProvider from '../providers/HashProvider/models/IHashProvider';
+
+import User from '../infra/typeorm/entities/User';
 import IUsersRepository from '../repositories/IUsersRepository';
+import IHashProvider from '../providers/HashProvider/models/IHashProvider';
 
 interface IRequest {
   user_id: string;
@@ -13,8 +14,8 @@ interface IRequest {
   password?: string;
 }
 
-injectable();
-class UpdateProfileAvatarService {
+@injectable()
+class UpdateProfileService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,
@@ -27,8 +28,8 @@ class UpdateProfileAvatarService {
     user_id,
     name,
     email,
-    password,
     old_password,
+    password,
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(user_id);
 
@@ -38,8 +39,8 @@ class UpdateProfileAvatarService {
 
     const userWithUpdatedEmail = await this.usersRepository.findByEmail(email);
 
-    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user.id) {
-      throw new AppError('E-mail already in use');
+    if (userWithUpdatedEmail && userWithUpdatedEmail.id !== user_id) {
+      throw new AppError('E-mail already in use.');
     }
 
     user.name = name;
@@ -47,28 +48,25 @@ class UpdateProfileAvatarService {
 
     if (password && !old_password) {
       throw new AppError(
-        'You need inform the old password to set a new password',
+        'You need to inform old password to set a new password.',
       );
     }
 
+    if (password && old_password) {
+      const checkOldPassword = await this.hashProvider.compareHash(
+        old_password,
+        user.password,
+      );
 
-
-
-    if (password) {
-      const checkOldPassword = await this.hashProvider.compareHash(old_password, user.password)
-
-      if(!checkOldPassword) {
-        throw new AppError('Old password invalid')
+      if (!checkOldPassword) {
+        throw new AppError('Old password does not match.');
       }
-
 
       user.password = await this.hashProvider.generateHash(password);
     }
 
-    await this.usersRepository.save(user);
-
-    return user;
+    return this.usersRepository.save(user);
   }
 }
 
-export default UpdateProfileAvatarService;
+export default UpdateProfileService;

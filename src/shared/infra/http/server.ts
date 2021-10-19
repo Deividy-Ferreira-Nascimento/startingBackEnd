@@ -33,6 +33,6 @@ return res.status(500).json({
 });
 
 app.listen(3333, () => {
-    console.log('🚀running 🚀 ')
+    console.log('🚀 running on port 3333 🚀 ')
 })
 
