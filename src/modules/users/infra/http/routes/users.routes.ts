@@ -12,7 +12,7 @@ const usersController = new UsersController()
 const userAvatarController = new UserAvatarController()
 
 
-usersRouter.post ('/users', usersController.create );
+usersRouter.post('/', usersController.create );
 
 usersRouter.patch('/avatar', ensureAuthenticated,upload.single('avatar'), userAvatarController.update )
 

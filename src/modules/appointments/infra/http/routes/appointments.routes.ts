@@ -12,12 +12,7 @@ appointmentsRouter.use(ensureAuthenticated)
 
 
 
-/*appointmentsRouter.get('/',async (req, res) => {
 
-  const appointmentsList = await appointmentsRepository.find()
-
-  return res.json(appointmentsList);
-})*/
 
 appointmentsRouter.post ('/', appointmentsController.create)
 
