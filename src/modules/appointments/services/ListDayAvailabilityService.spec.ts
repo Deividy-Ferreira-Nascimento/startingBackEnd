@@ -14,11 +14,14 @@ describe('ListProviderMonthAvailability', () => {
 
     await fakeAppointments.create({
       provider_id: 'user',
+      user_id: '123123',
+
       date: new Date(2021, 9, 21, 14, 0, 0),
     });
 
     await fakeAppointments.create({
       provider_id: 'user',
+      user_id: '123123',
       date: new Date(2021, 9, 21, 15, 0, 0),
     });
 
