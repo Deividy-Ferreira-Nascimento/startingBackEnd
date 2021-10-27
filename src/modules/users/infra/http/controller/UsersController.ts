@@ -11,7 +11,7 @@ export default class UsersController {
 
       const createUser = container.resolve(CreateUserService);
 
-      const user = await createUser.execute({
+      const users = await createUser.execute({
         name,
         email,
         password,
@@ -19,7 +19,7 @@ export default class UsersController {
 
 
 
-      return res.json({ user: classToClass(user) })
+      return res.json({ user: classToClass(users) })
     } catch (error) {
       return res.status(400).json({error:'Email addres already used'})
     }

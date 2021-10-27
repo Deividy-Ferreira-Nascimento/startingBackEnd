@@ -25,7 +25,7 @@ export default class ProfileController {
 
     const updateProfile = container.resolve(UpdateProfileService);
 
-    const user = await updateProfile.execute({
+    const users = await updateProfile.execute({
       user_id,
       name,
       email,
@@ -36,6 +36,6 @@ export default class ProfileController {
 
 
 
-    return res.json({ user: classToClass(user) });
+    return res.json( classToClass(users) );
   }
 }
