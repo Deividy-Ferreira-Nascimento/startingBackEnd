@@ -1,6 +1,7 @@
 import { Request, Response } from 'express'
 import { container } from 'tsyringe';
 import CreateUserService from '@modules/users/services/CreateUserService';
+import { classToClass } from 'class-transformer';
 
 export default class UsersController {
   public async create(req:Request, res:Response): Promise<Response>{
@@ -16,15 +17,9 @@ export default class UsersController {
         password,
       });
 
-     const views = {
-      id: user.id,
-      name: user.name,
-      email:user.email,
-      created_at: user.created_at,
-      updated_at: user.updated_at
-     }
 
-      return res.json(views)
+
+      return res.json({ user: classToClass(user) })
     } catch (error) {
       return res.status(400).json({error:'Email addres already used'})
     }
