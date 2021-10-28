@@ -1,16 +1,20 @@
 import FakeAppointmentsRepository from '../repositories/fakes/FakeAppointmentsRepository';
 import AppError from '@shared/errors/AppError';
-import ListMonthAvailabilityService from './ListMonthAvailabilityService';
+import FakeCashProvider from '@shared/container/providers/CacheProvider/fakes/FakeCashProvider';
 import ListProviderAppointmentsService from './ListProviderAppointmentsService';
 
 let fakeAppointments: FakeAppointmentsRepository;
 let listProviderAppointments: ListProviderAppointmentsService;
+let fakeCashProvider: FakeCashProvider;
 
 describe('ListProviderAppointments', () => {
   beforeEach(() => {
+    fakeCashProvider = new FakeCashProvider();
     fakeAppointments = new FakeAppointmentsRepository();
+
     listProviderAppointments = new ListProviderAppointmentsService(
       fakeAppointments,
+      fakeCashProvider,
     );
   });
   it('should be able to list the month appointments on a specific day', async () => {
@@ -28,7 +32,7 @@ describe('ListProviderAppointments', () => {
 
     const appointments = await listProviderAppointments.execute({
       provider_id: 'provider',
-      day:20,
+      day: 20,
       month: 10,
       year: 2021,
     });
@@ -36,6 +40,5 @@ describe('ListProviderAppointments', () => {
     // Fuso horário Brasil = UTC-3
 
     expect(appointments).toEqual([appointments1, appointments2]);
-
   });
 });

@@ -1,15 +1,20 @@
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import AppError from '@shared/errors/AppError';
+import FakeCashProvider from '@shared/container/providers/CacheProvider/fakes/FakeCashProvider';
+
 import ListProvidersService from './ListProvidersService';
 
 let fakeUsersRepository: FakeUsersRepository;
 let listProviders: ListProvidersService;
+let fakeCashProvider: FakeCashProvider;
 
 describe('ListProviders', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
-
-    listProviders = new ListProvidersService(fakeUsersRepository);
+    fakeCashProvider = new FakeCashProvider();
+    listProviders = new ListProvidersService(
+      fakeUsersRepository,
+      fakeCashProvider,
+    );
   });
   it('should be able to list the providers', async () => {
     const user1 = await fakeUsersRepository.create({
@@ -27,11 +32,9 @@ describe('ListProviders', () => {
       email: 'johnwichester@snt.com',
       password: 'goosebumps',
     });
-
     const providers = await listProviders.execute({
       user_id: loggedUser.id,
     });
-
     expect(providers).toEqual([user1, user2]);
   });
 });
