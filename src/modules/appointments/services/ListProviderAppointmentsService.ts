@@ -2,6 +2,7 @@ import { inject, injectable } from 'tsyringe';
 import Appointment from '../infra/typeorm/entities/Appointments';
 import IAppointmentsRepository from '../repositories/IAppointmentsRepository';
 import ICashProvider from '@shared/container/providers/CacheProvider/models/ICashProvider';
+import { classToClass } from 'class-transformer';
 
 interface IRequest {
   provider_id: string;
@@ -42,8 +43,8 @@ class ListProviderAppointmentsService {
         },
       );
 
-      console.log('Buscou no banco!')
-      await this.cacheProvider.save(cacheKey, appointments);
+      console.log('Buscou no banco!');
+      await this.cacheProvider.save(cacheKey, classToClass(appointments));
     }
 
     return appointments;

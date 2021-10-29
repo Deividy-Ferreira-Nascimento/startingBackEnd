@@ -13,17 +13,18 @@
     "@shared/*": ["shared/*"]
   },
 
- "typeRoots": [
+"typeRoots": [
     "./src/@types",
     "./node_modules/@types"
   ],
- "outDir": "./dist",
+"outDir": "./dist",
 "esModuleInterop": true,
 "forceConsistentCasingInFileNames": true,
 "strict": true,
 "strictNullChecks": false,
 "strictPropertyInitialization": false,
- "skipLibCheck": true
+"skipLibCheck": true
 }
 
 }
+
